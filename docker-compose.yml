@@ -1,0 +1,29 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # Serviço para a sua API FastAPI
+  web:
+    # Indica para o Docker Compose construir a imagem a partir do Dockerfile
+    # presente no diretório atual (.).
+    build: .
+    container_name: api
+    # Mapeia a porta 8000 do contêiner para a porta 8000 na sua máquina local.
+    # Isso permite acessar a API em http://localhost:8000
+    ports:
+      - "8000:8000"
+    # Opcional: Reinicia o contêiner se ele parar inesperadamente.
+    restart: always
+    # Opcional: Monta o código-fonte da sua máquina local dentro do contêiner.
+    # Isso é útil para desenvolvimento, pois as alterações no código são refletidas
+    # sem precisar reconstruir a imagem (se sua aplicação tiver auto-reload).
+    # Descomente e ajuste o caminho se desejar usar.
+   
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
